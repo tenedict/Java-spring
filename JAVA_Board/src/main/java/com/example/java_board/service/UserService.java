@@ -3,11 +3,9 @@ package com.example.java_board.service;
 import com.example.java_board.domain.User;
 import com.example.java_board.repository.UserRepository;
 import com.example.java_board.util.JwtUtil;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
@@ -32,6 +30,4 @@ public class UserService {
             throw new RuntimeException("Invalid password");
         }
     }
-
 }
-

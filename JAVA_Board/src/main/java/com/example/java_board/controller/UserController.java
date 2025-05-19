@@ -5,12 +5,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/users")
 @RequiredArgsConstructor
+@RequestMapping("/users")
 public class UserController {
     private final UserService userService;
 
-    // 회원가입 POST 요청 처리
     @PostMapping("/register")
     public String register(@RequestParam String username, @RequestParam String password) {
         userService.register(username, password);

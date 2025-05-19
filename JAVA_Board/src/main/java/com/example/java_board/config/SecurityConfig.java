@@ -1,15 +1,22 @@
 package com.example.java_board.config;
 
+import com.example.java_board.util.JwtUtil;
+import com.example.java_board.config.JwtAuthenticationFilter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
+@RequiredArgsConstructor
 public class SecurityConfig {
+
+    private final JwtUtil jwtUtil;
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -18,14 +25,17 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        JwtAuthenticationFilter jwtFilter = new JwtAuthenticationFilter(jwtUtil);
+
         http
-                .csrf(csrf -> csrf.disable()) // CSRF 비활성화 (API 서버라면 보통 이렇게 함)
+                .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/users/register", "/users/login").permitAll()// 회원가입, 로그인은 인증 없이 허용
-                        .requestMatchers("/boards").permitAll() // 자료 뭐있는지 보는거
-                        .anyRequest().authenticated() // 나머지는 인증 필요
+                        .requestMatchers("/users/register", "/users/login").permitAll()
+                        .requestMatchers("/boards").permitAll()
+                        .anyRequest().authenticated()
                 )
-                .formLogin(withDefaults()); // 기본 로그인 폼 활성화 (나중에 JWT 쓸 때 바꿀 수 있음)
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class) // 필터 등록
+                .formLogin(withDefaults());
 
         return http.build();
     }

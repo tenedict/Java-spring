@@ -9,7 +9,7 @@ import java.util.Date;
 
 @Component
 public class JwtUtil {
-    private final String SECRET_KEY = "YOUR_SECRET_KEY_32_CHARACTERS_MINIMUM"; // 적당히 길고 복잡한 문자열
+    private final String SECRET_KEY = "YOUR_SECRET_KEY_32_CHARACTERS_MINIMUM";
     private final long EXPIRATION_TIME = 1000 * 60 * 60 * 10; // 10시간
 
     private Key getSigningKey() {

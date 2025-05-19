@@ -1,4 +1,5 @@
 package com.example.java_board.repository;
+
 import com.example.java_board.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
