@@ -28,7 +28,7 @@ public class BoardService {
     public Board createBoard(Board board) {
         return boardRepository.save(board);
     }
-
+    
     // 수정하기
     public Board updateBoard(Long id, Board updatedBoard) {
         return boardRepository.findById(id)
